@@ -4,14 +4,10 @@ import paho.mqtt.client as mqtt
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
     #replace user with your USC username in all subscriptions
-    client.subscribe("appelhan/ipinfo")
-    client.subscribe("appelhan/time")
-    client.subscribe("appelhan/date")
+    client.subscribe("appelhan/sensor_data")
 
     #Add the custom callbacks by indicating the topic and the name of the callback handle
-    client.message_callback_add("appelhan/ipinfo", on_message_from_ipinfo)
-    client.message_callback_add("appelhan/time", on_message_from_time)
-    client.message_callback_add("appelhan/date", on_message_from_date)
+    client.message_callback_add("appelhan/ipinfo", on_message_from_sensor_data)
 
 """This object (functions are objects!) serves as the default callback for 
 messages received when another node publishes a message this client is 
@@ -21,14 +17,8 @@ def on_message(client, userdata, msg):
     print("Default callback - topic: " + msg.topic + "   msg: " + str(msg.payload, "utf-8"))
 
 #Custom message callback.
-def on_message_from_ipinfo(client, userdata, message):
-    print("Custom callback  - IP Message: "+message.payload.decode())
-
-def on_message_from_time(client, userdata, message):
-    print("Custom callback  - Time: "+message.payload.decode())
-
-def on_message_from_date(client, userdate, message):
-    print("Custom callback  - Date: "+message.payload.decode())
+def on_message_from_sensor_data(client, userdata, message):
+    # Do all the data processing and plotting
 
 
 if __name__ == '__main__':
