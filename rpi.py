@@ -1,29 +1,30 @@
 import time
 import grovepi
-#import paho.mqtt.client as mqtt
+import paho.mqtt.client as mqtt
 from datetime import datetime
 import socket
 import random
 
 
-# """This function (or "callback") will be executed when this client receives 
-# a connection acknowledgement packet response from the server. """
-# def on_connect(client, userdata, flags, rc):
-#     print("Connected to server (i.e., broker) with result code "+str(rc))
+"""This function (or "callback") will be executed when this client receives 
+a connection acknowledgement packet response from the server. """
+def on_connect(client, userdata, flags, rc):
+    print("Connected to server (i.e., broker) with result code "+str(rc))
 
 
 
-# #get IP address
-# ip_address = socket.gethostbyname(socket.gethostname())
-# #create a client object
-# client = mqtt.Client()
-# #attach the on_connect() callback function defined above to the mqtt client
-# client.on_connect = on_connect
-# client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
-# """ask paho-mqtt to spawn a separate thread to handle incoming and outgoing mqtt messages."""
-# client.loop_start()
-# time.sleep(1)
+#get IP address
+ip_address = socket.gethostbyname(socket.gethostname())
+#create a client object
+client = mqtt.Client()
+#attach the on_connect() callback function defined above to the mqtt client
+client.on_connect = on_connect
+client.connect(host="172.20.10.5", port=1883, keepalive=60)
+"""ask paho-mqtt to spawn a separate thread to handle incoming and outgoing mqtt messages."""
+client.loop_start()
+time.sleep(1)
 
+#client.publish("security/sensor_data", "test string")
 
 soundsensor = 1
 
@@ -71,7 +72,7 @@ ultrasonic_threshold = 10
 
 # grovepi.attachInterrupt(button, button_interrupt, "FALLING")
 
- 
+buzzer_value = 0
 
 while True:
     try:
@@ -81,36 +82,68 @@ while True:
         lightsensor_value = grovepi.analogRead(lightsensor)
         range_value = grovepi.ultrasonicRead(ultrasonic_ranger)
 
-        print(soundsensor_value)
         print(lightsensor_value)
+        print(soundsensor_value)
         print(range_value)
+        print(buzzer_value)
         
 
         # Read sensor value from potentiometer
-        sensor_value = grovepi.digitalRead(button)
+        #sensor_value = grovepi.digitalRead(button)
 
+        #light, sound, distance, alarm
+        # sensor_data_values = str(lightsensor_value) + " " + str(soundsensor_value) + " " + str(range_value) + " " + str(buzzer_value)
+        # #publish date and time in their own topics
+        # client.publish("security/sensor_data", sensor_data_values)
+        # print("Publishing sensor data")
+        # time.sleep(0.5)
 
+        # trigger the alarm
         if((soundsensor_value > soundsensor_threshold) or (lightsensor_value > lightsensor_threshold) or (range_value > ultrasonic_threshold)):
-            flag = 1
+            # flag = 1
+            grovepi.digitalWrite(buzzer, 1)
+            buzzer_value = 1
+
+        if((grovepi.digitalRead(button)) == 1): 
+            grovepi.digitalWrite(buzzer, 0)
+            # grovepi.digitalWrite(led, 0)
+            buzzer_value = 0
+            # flag = 0
+
+        # while(flag == 1):
+        #     #print(grovepi.digitalRead(button))
+        #     if((grovepi.digitalRead(button)) == 1): 
+        #         grovepi.digitalWrite(buzzer, 0)
+        #         # grovepi.digitalWrite(led, 0)
+        #         buzzer_value = 0
+        #         flag = 0
+            # elif((grovepi.digitalRead(button)) == 0): 
+            #     grovepi.digitalWrite(buzzer, 1)
+            #     buzzer_value = 1
+                # grovepi.digitalWrite(led, 1)
+                # time.sleep(0.5)
+
+                # grovepi.digitalWrite(led, 0)
+                # time.sleep(0.5)
+
+        #light, sound, distance, alarm
+        sensor_data_values = str(lightsensor_value) + " " + str(soundsensor_value) + " " + str(range_value) + " " + str(buzzer_value)
+        #publish date and time in their own topics
+        client.publish("security/sensor_data", sensor_data_values)
+        print("Publishing sensor data")
+        time.sleep(0.2)
+
         
 
-        while(flag == 1):
-            #print(grovepi.digitalRead(button))
-            if((grovepi.digitalRead(button)) == 1): 
-                grovepi.digitalWrite(buzzer, 0)
-                grovepi.digitalWrite(led, 0)
-                flag = 0
-            elif((grovepi.digitalRead(button)) == 0): 
-                grovepi.digitalWrite(buzzer, 1)
-                grovepi.digitalWrite(led, 1)
-                time.sleep(0.5)
+        # client.publish("appelhan/light", f"{lightsensor_value}")
+        # print("Publishing light data")
 
-                grovepi.digitalWrite(led, 0)
-                time.sleep(0.5)
+        # client.publish("appelhan/range", f"{range_value}")
+        # print("Publishing range data")
+
+        
 
             
-    
-
     except KeyboardInterrupt:
         grovepi.analogWrite(led,0)
         break
@@ -125,9 +158,4 @@ while True:
 
 
 
-    # #publish date and time in their own topics
-    # client.publish("appelhan/time", f"{time_data}")
-    # print("Publishing time")
-
-    # client.publish("appelhan/date", f"{date}")
-    # print("Publishing date")
+    
