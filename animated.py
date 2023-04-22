@@ -38,10 +38,10 @@ ax03.set_ylim(-0,5)
 ax04.set_ylim(-1,2)
 
 # sex x-limits
-ax01.set_xlim(0,5.0)
-ax02.set_xlim(0,5.0)
-ax03.set_xlim(0,5.0)
-ax04.set_xlim(0,5.0)
+ax01.set_xlim(0,50.0)
+ax02.set_xlim(0,50.0)
+ax03.set_xlim(0,50.0)
+ax04.set_xlim(0,50.0)
 
 # Turn on grids
 ax01.grid(True)
@@ -88,7 +88,7 @@ ax03.legend([range_plot,range_thresh_plot], [range_plot.get_label(),range_thresh
 
 # Data Update
 xmin = 0.0
-xmax = 5.0
+xmax = 50.0
 x = 0.0
 
 def updateData(self):
@@ -116,7 +116,7 @@ def updateData(self):
     sound_thresh.append(1.5)
     range_thresh.append(1.5)
 
-    x += 0.05
+    x += 1
 
     light_data = light_data[-500:]
     sound_data = sound_data[-500:]
@@ -136,10 +136,10 @@ def updateData(self):
     alarm_plot.set_data(t,alarm_data)
 
     if x >= xmax-1.00:
-        light_plot.axes.set_xlim(x-xmax+1.0,x+1.0)
-        sound_plot.axes.set_xlim(x-xmax+1.0,x+1.0)
-        range_plot.axes.set_xlim(x-xmax+1.0,x+1.0)
-        alarm_plot.axes.set_xlim(x-xmax+1.0,x+1.0)
+        light_plot.axes.set_xlim(x-xmax+1.0,x+10.0)
+        sound_plot.axes.set_xlim(x-xmax+1.0,x+10.0)
+        range_plot.axes.set_xlim(x-xmax+1.0,x+10.0)
+        alarm_plot.axes.set_xlim(x-xmax+1.0,x+10.0)
 
 
     return light_plot, light_thresh_plot, sound_plot, sound_thresh_plot, range_plot, range_thresh_plot, alarm_plot
