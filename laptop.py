@@ -50,13 +50,13 @@ ax03.grid(True)
 ax04.grid(True)
 
 # set label names
-ax01.set_xlabel("time")
+ax01.set_xlabel("time (seconds)")
 ax01.set_ylabel("Light Intensity")
-ax02.set_xlabel("time")
+ax02.set_xlabel("time (seconds)")
 ax02.set_ylabel("Sound Intensity")
-ax03.set_xlabel("time")
+ax03.set_xlabel("time (seconds)")
 ax03.set_ylabel("Distance")
-ax04.set_xlabel("time")
+ax04.set_xlabel("time (seconds)")
 ax04.set_ylabel("Status (On/Off)")
 
 # Data Placeholders
@@ -104,7 +104,7 @@ def updateData(self):
     global alarm_data
     global t
 
-    print ("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    # print ("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
     # tmpp1 = 1 + exp(-x) *sin(2 * pi * x)
     # tmpv1 = - exp(-x) * sin(2 * pi * x) + exp(-x) * cos(2 * pi * x) * 2 * pi
@@ -126,13 +126,13 @@ def updateData(self):
 
     t.append(x)
     # Set the threshold values ##################################################################################################
-    light_thresh.append(50)
-    sound_thresh.append(50)
-    range_thresh.append(50)
+    light_thresh.append(100)
+    sound_thresh.append(200)
+    range_thresh.append(100)
 
-    print(light_data)
-    print(light_thresh)
-    print(t)
+    # print(light_data)
+    # print(light_thresh)
+    # print(t)
 
     x += 0.5
 

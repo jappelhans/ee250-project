@@ -61,9 +61,9 @@ adc_ref = 5
 # Vcc of the grove interface is normally 5v
 grove_vcc = 5
 
-soundsensor_threshold = 10
-lightsensor_threshold = 10
-ultrasonic_threshold = 10
+lightsensor_threshold = 100
+soundsensor_threshold = 200
+ultrasonic_threshold = 100
 
 # def button_interrupt():
 #     grovepi.digitalWrite(buzzer, 0)
@@ -81,6 +81,8 @@ while True:
         soundsensor_value = grovepi.analogRead(soundsensor)
         lightsensor_value = grovepi.analogRead(lightsensor)
         range_value = grovepi.ultrasonicRead(ultrasonic_ranger)
+        while (range_value > 1000):
+            range_value = grovepi.ultrasonicRead(ultrasonic_ranger)
 
         print(lightsensor_value)
         print(soundsensor_value)
@@ -99,7 +101,7 @@ while True:
         # time.sleep(0.5)
 
         # trigger the alarm
-        if((soundsensor_value > soundsensor_threshold) or (lightsensor_value > lightsensor_threshold) or (range_value > ultrasonic_threshold)):
+        if(((soundsensor_value > soundsensor_threshold) or (lightsensor_value > lightsensor_threshold) or (range_value > ultrasonic_threshold)) and ((grovepi.digitalRead(button)) == 0)):
             # flag = 1
             grovepi.digitalWrite(buzzer, 1)
             buzzer_value = 1
