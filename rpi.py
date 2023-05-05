@@ -65,12 +65,6 @@ lightsensor_threshold = 100
 soundsensor_threshold = 200
 ultrasonic_threshold = 100
 
-# def button_interrupt():
-#     grovepi.digitalWrite(buzzer, 0)
-#     grovepi.digitalWrite(led, 0)
-
-
-# grovepi.attachInterrupt(button, button_interrupt, "FALLING")
 
 buzzer_value = 0
 
@@ -90,16 +84,6 @@ while True:
         print(buzzer_value)
         
 
-        # Read sensor value from potentiometer
-        #sensor_value = grovepi.digitalRead(button)
-
-        #light, sound, distance, alarm
-        # sensor_data_values = str(lightsensor_value) + " " + str(soundsensor_value) + " " + str(range_value) + " " + str(buzzer_value)
-        # #publish date and time in their own topics
-        # client.publish("security/sensor_data", sensor_data_values)
-        # print("Publishing sensor data")
-        # time.sleep(0.5)
-
         # trigger the alarm
         if(((soundsensor_value > soundsensor_threshold) or (lightsensor_value > lightsensor_threshold) or (range_value > ultrasonic_threshold)) and ((grovepi.digitalRead(button)) == 0)):
             # flag = 1
@@ -112,21 +96,7 @@ while True:
             buzzer_value = 0
             # flag = 0
 
-        # while(flag == 1):
-        #     #print(grovepi.digitalRead(button))
-        #     if((grovepi.digitalRead(button)) == 1): 
-        #         grovepi.digitalWrite(buzzer, 0)
-        #         # grovepi.digitalWrite(led, 0)
-        #         buzzer_value = 0
-        #         flag = 0
-            # elif((grovepi.digitalRead(button)) == 0): 
-            #     grovepi.digitalWrite(buzzer, 1)
-            #     buzzer_value = 1
-                # grovepi.digitalWrite(led, 1)
-                # time.sleep(0.5)
-
-                # grovepi.digitalWrite(led, 0)
-                # time.sleep(0.5)
+        
 
         #light, sound, distance, alarm
         sensor_data_values = str(lightsensor_value) + " " + str(soundsensor_value) + " " + str(range_value) + " " + str(buzzer_value)
@@ -136,16 +106,6 @@ while True:
         time.sleep(0.2)
 
         
-
-        # client.publish("appelhan/light", f"{lightsensor_value}")
-        # print("Publishing light data")
-
-        # client.publish("appelhan/range", f"{range_value}")
-        # print("Publishing range data")
-
-        
-
-            
     except KeyboardInterrupt:
         grovepi.analogWrite(led,0)
         break

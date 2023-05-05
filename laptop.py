@@ -104,17 +104,6 @@ def updateData(self):
     global alarm_data
     global t
 
-    # print ("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-
-    # tmpp1 = 1 + exp(-x) *sin(2 * pi * x)
-    # tmpv1 = - exp(-x) * sin(2 * pi * x) + exp(-x) * cos(2 * pi * x) * 2 * pi
-    # temp1 = random.random()
-    # temp2 = random.random()
-
-    # light_data.append(temp1)
-    # sound_data.append(temp2)
-    # range_data.append(0.5*temp1)
-    # alarm_data.append(0.5*temp2)
 
     global message_buffer
     string_with_numbers = str(message_buffer[-1].payload, "utf-8")
@@ -125,14 +114,11 @@ def updateData(self):
     alarm_data.append(numbers_list[3])   
 
     t.append(x)
-    # Set the threshold values ##################################################################################################
+
     light_thresh.append(100)
     sound_thresh.append(200)
     range_thresh.append(100)
 
-    # print(light_data)
-    # print(light_thresh)
-    # print(t)
 
     x += 0.5
 
@@ -185,23 +171,6 @@ def on_message(client, userdata, msg):
 def on_message_from_sensor_data(client, userdata, msg):
     global message_buffer
     message_buffer.append(msg)
-    # string_with_numbers = str(msg.payload, "utf-8")
-    # numbers_list = [int(num) for num in string_with_numbers.split()]
-    # global light_data
-    # global sound_data
-    # global range_data
-    # global alarm_data
-    # light_data.append(numbers_list[0])
-    # sound_data.append(numbers_list[1])
-    # range_data.append(numbers_list[2])
-    # alarm_data.append(numbers_list[3])
-    # print(light_data)
-    # global updated
-    # updated = 0
-    # while (updated == 0):
-    #     # empty
-    #     a = 2
-
 
 
 def run_mqtt_loop():
@@ -218,16 +187,6 @@ def run_mqtt_loop():
 
 
 if __name__ == '__main__':
-    # #create a client object
-    # client = mqtt.Client()
-    # #attach a default callback which we defined above for incoming mqtt messages
-    # client.on_message = on_message
-    # #attach the on_connect() callback function defined above to the mqtt client
-    # client.on_connect = on_connect
-
-    # client.connect(host="172.20.10.5", port=1883, keepalive=60)
-
-    # client.loop_forever()
 
     mqtt_thread = threading.Thread(target=run_mqtt_loop)
     mqtt_thread.start()
